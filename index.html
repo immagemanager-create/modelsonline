@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IMMAGE MANAGER · Agencia de Talentos Digitales</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* --- ESTILOS BASE --- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cyan: #5BCFDB;
+      --cyan-light: #A8E8EE;
+      --silver: #C0C8D4;
+      --black: #000000;
+      --off-white: #F0F4F8;
+      --warm-gray: #8C95A0;
+      --dark-gray: #0A0A0A;
+      --mid-gray: #111115;
+      --glow: 0 0 15px rgba(91, 207, 219, 0.2);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--black); color: var(--off-white); overflow-x: hidden; }
+
+    /* --- NAV --- */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 2.5rem; background: rgba(0,0,0,0.88); backdrop-filter: blur(14px); border-bottom: 0.5px solid rgba(91,207,219,0.18); }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo img { height: 48px; mix-blend-mode: lighten; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--off-white); text-decoration: none; opacity: 0.7; transition: opacity 0.2s, color 0.2s; }
+    .nav-links a:hover { opacity: 1; color: var(--cyan); }
+
+    /* --- HERO --- */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; padding: 7rem 2rem 4rem; overflow: hidden; background: #000; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 55% at 50% 45%, rgba(91,207,219,0.07) 0%, transparent 70%); pointer-events: none; }
+    .hero-logo { width: min(480px, 88vw); mix-blend-mode: lighten; opacity: 0; animation: fadeUp 1s 0.3s forwards; filter: brightness(1.05); }
+    .hero-sub { margin-top: 1.2rem; font-size: 0.65rem; font-weight: 300; letter-spacing: 0.32em; color: var(--warm-gray); text-transform: uppercase; opacity: 0; animation: fadeUp 1s 0.6s forwards; }
+    .hero-cta { margin-top: 2.5rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeUp 1s 0.9s forwards; }
+    .scroll-hint { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0; animation: fadeUp 1s 1.5s forwards; }
+    .scroll-hint span { font-size: 0.52rem; letter-spacing: 0.25em; color: var(--warm-gray); text-transform: uppercase; }
+    .scroll-hint::after { content: ''; width: 0.5px; height: 34px; background: linear-gradient(to bottom, var(--cyan), transparent); }
+
+    .btn-primary { padding: 0.85rem 2.2rem; background: var(--cyan); color: #000; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; display: inline-block; }
+    .btn-primary:hover { background: var(--cyan-light); transform: translateY(-2px); }
+    .btn-outline { padding: 0.85rem 2.2rem; background: transparent; color: var(--off-white); font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none; border: 0.5px solid rgba(240,244,248,0.3); cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.15s; display: inline-block; }
+    .btn-outline:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-2px); }
+
+    /* --- SECCIONES GENERALES --- */
+    section { padding: 5.5rem 2.5rem; }
+    .section-label { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.8rem; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 300; line-height: 1.1; color: var(--off-white); }
+    .section-title em { font-style: italic; color: var(--cyan); }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* --- SECCIÓN NOSOTROS --- */
+    #nosotros { background: var(--dark-gray); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; max-width: 1100px; margin: 0 auto; }
+    .about-text p { font-size: 0.85rem; font-weight: 300; line-height: 1.9; color: var(--warm-gray); margin-top: 1.2rem; }
+    .about-text p strong { color: var(--off-white); font-weight: 500; }
+    .about-image { width: 100%; height: 450px; object-fit: cover; border: 0.5px solid rgba(91,207,219,0.15); box-shadow: var(--glow); }
+
+    /* --- SECCIÓN SISTEMA --- */
+    #sistema { background: var(--mid-gray); }
+    .system-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 2.5rem auto 0; }
+    .system-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(91,207,219,0.1); padding: 1.8rem; transition: all 0.3s; }
+    .system-card:hover { background: rgba(91,207,219,0.05); transform: translateY(-5px); box-shadow: var(--glow); }
+    .system-card h4 { color: var(--cyan); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .system-card p { font-size: 0.75rem; color: var(--warm-gray); line-height: 1.7; }
+
+    /* --- SECCIÓN MERCADO --- */
+    #mercado { background: var(--black); }
+    .mercado-text { font-size: 0.85rem; font-weight: 300; line-height: 1.9; color: var(--warm-gray); max-width: 800px; margin-bottom: 2rem; }
+    .mercado-text strong { color: var(--off-white); font-weight: 500; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; max-width: 800px; margin: 0 auto; }
+    th, td { padding: 0.8rem; text-align: left; border-bottom: 0.5px solid rgba(91,207,219,0.1); }
+    th { color: var(--cyan); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.65rem; }
+    td { color: var(--warm-gray); }
+    tr:hover td { background: rgba(91,207,219,0.03); }
+
+    /* --- SECCIÓN BLINDAJE CIBERNÉTICO (NUEVA) --- */
+    #blindaje { background: var(--dark-gray); }
+    .security-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 2.5rem auto 0; }
+    .security-item { background: rgba(255,255,255,0.02); border: 0.5px solid rgba(91,207,219,0.1); padding: 1.5rem; }
+    .security-item h4 { color: var(--cyan); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+    .security-item p { font-size: 0.75rem; color: var(--warm-gray); line-height: 1.7; }
+
+    /* --- SECCIÓN INCÓGNITO (NUEVA) --- */
+    #incognito { background: var(--black); text-align: center; }
+    .incognito-box { max-width: 900px; margin: 2rem auto; padding: 3rem; border: 0.5px solid rgba(91,207,219,0.1); background: rgba(255,255,255,0.01); }
+    .incognito-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--off-white); margin-bottom: 1.5rem; }
+    .incognito-box h3 em { color: var(--cyan); font-style: italic; }
+    .incognito-box p { font-size: 0.85rem; font-weight: 300; line-height: 1.9; color: var(--warm-gray); }
+
+    /* --- SECCIÓN GALERÍA --- */
+    #galeria { background: var(--black); text-align: center; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
+    .gallery-grid img { width: 100%; height: 350px; object-fit: cover; filter: grayscale(20%); transition: all 0.3s; border: 0.5px solid rgba(91,207,219,0.1); }
+    .gallery-grid img:hover { filter: grayscale(0%); transform: scale(1.02); box-shadow: var(--glow); z-index: 10; }
+
+    /* --- SECCIÓN REGISTRO --- */
+    #registro { background: var(--black); }
+    .registro-intro-box { max-width: 860px; margin: 0 auto 2.5rem auto; padding: 2.5rem; background: rgba(91,207,219,0.03); border-left: 2px solid var(--cyan); }
+    .registro-intro-box p { font-size: 0.9rem; font-weight: 300; line-height: 1.9; color: var(--off-white); }
+    .registro-intro-box p strong { color: var(--cyan); font-weight: 500; }
+    .form-outer { max-width: 860px; margin: 0 auto; }
+    .form-intro { font-size: 0.75rem; font-weight: 300; line-height: 1.9; color: var(--warm-gray); margin-bottom: 2rem; }
+    .form-card { background: var(--dark-gray); border: 0.5px solid rgba(91,207,219,0.15); padding: 2.5rem 2.8rem; }
+    .fsection { margin-bottom: 2.2rem; }
+    .fsection-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.2rem; padding-bottom: 0.6rem; border-bottom: 0.5px solid rgba(91,207,219,0.13); }
+    .fsection-num { width: 22px; height: 22px; border-radius: 50%; background: rgba(91,207,219,0.1); color: var(--cyan); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .fsection-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+    .fgrid { display: grid; gap: 1rem; }
+    .fgrid-2 { grid-template-columns: 1fr 1fr; }
+    .fgrid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .fspan2 { grid-column: 1 / -1; }
+    .ffield { display: flex; flex-direction: column; gap: 5px; }
+    .ffield label { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm-gray); }
+    .ffield input, .ffield select, .ffield textarea { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(240,244,248,0.13); color: var(--off-white); padding: 0.7rem 0.9rem; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 300; outline: none; transition: border-color 0.2s; width: 100%; border-radius: 0; }
+    .ffield input:focus, .ffield select:focus, .ffield textarea:focus { border-color: var(--cyan); }
+    .ffield input::placeholder, .ffield textarea::placeholder { color: rgba(140,149,160,0.5); }
+    .ffield select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%235BCFDB'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+    .ffield select option { background: #0A0A0A; color: #F0F4F8; }
+    .ffield textarea { resize: none; line-height: 1.7; }
+    .foto-box { border: 0.5px dashed rgba(91,207,219,0.25); padding: 1.4rem; text-align: center; }
+    .foto-box p { font-size: 0.7rem; color: var(--warm-gray); line-height: 1.7; }
+    .legal-box { background: rgba(91,207,219,0.03); border: 0.5px solid rgba(91,207,219,0.1); padding: 1.2rem 1.4rem; font-size: 0.68rem; font-weight: 300; color: var(--warm-gray); line-height: 1.8; margin-bottom: 1.5rem; }
+    .form-submit { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .form-msg { font-size: 0.7rem; font-weight: 300; display: none; padding: 0.7rem 1.2rem; }
+    .form-msg.success { display: block; background: rgba(91,207,219,0.08); border: 0.5px solid rgba(91,207,219,0.3); color: var(--cyan); }
+    .form-msg.error { display: block; background: rgba(220,50,50,0.08); border: 0.5px solid rgba(220,50,50,0.3); color: #E06060; }
+
+    /* --- SECCIÓN CONTACTO --- */
+    #contacto { background: var(--mid-gray); }
+    .contact-inner { max-width: 1100px; margin: 2.5rem auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-info p { font-size: 0.75rem; font-weight: 300; color: var(--warm-gray); line-height: 1.9; margin-top: 1rem; }
+    .contact-details { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item span:first-child { font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--cyan); display: block; margin-bottom: 2px; }
+    .contact-item span:last-child { font-size: 0.78rem; color: var(--off-white); }
+    .social-links { margin-top: 1.8rem; display: flex; gap: 1.5rem; }
+    .social-links a { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-gray); text-decoration: none; border-bottom: 0.5px solid transparent; transition: color 0.2s, border-color 0.2s; }
+    .social-links a:hover { color: var(--cyan); border-color: var(--cyan); }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form input, .contact-form textarea { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(240,244,248,0.13); color: var(--off-white); padding: 0.8rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 300; outline: none; transition: border-color 0.2s; width: 100%; }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--cyan); }
+    .contact-form input::placeholder, .contact-form textarea::placeholder { color: rgba(140,149,160,0.5); }
+    .contact-form textarea { resize: none; min-height: 90px; }
+
+    /* --- FOOTER --- */
+    footer { padding: 2rem 2.5rem; background: #000; border-top: 0.5px solid rgba(91,207,219,0.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    footer p { font-size: 0.58rem; letter-spacing: 0.1em; color: var(--warm-gray); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.8rem 1.2rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.2rem; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .system-grid, .security-grid, .gallery-grid { grid-template-columns: 1fr; }
+      .fgrid-2, .fgrid-3 { grid-template-columns: 1fr; }
+      .fspan2 { grid-column: 1; }
+      .form-card { padding: 1.5rem 1.2rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo"><img src="image/logo.png" alt="IMMAGE MANAGER Logo" /></a>
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#sistema">Sistema</a></li>
+    <li><a href="#blindaje">Blindaje</a></li>
+    <li><a href="#incognito">Incógnito</a></li>
+    <li><a href="#registro">Registro</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <img src="image/logo.png" alt="IMMAGE MANAGER" class="hero-logo"/>
+  <p class="hero-sub">Estrategia de negocios aplicada al talento digital</p>
+  <div class="hero-cta">
+    <a href="#registro" class="btn-primary">Únete</a>
+    <a href="#nosotros" class="btn-outline">Descubre</a>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span></div>
+</section>
+
+<section id="nosotros">
+  <div class="about-grid">
+    <div class="about-text">
+      <p class="section-label">Nuestra Agencia</p>
+      <h2 class="section-title">Somos <em>estrategas</em> del talento</h2>
+      <p>Nuestro origen no está en la industria del entretenimiento adulto: está en la <strong>optimización de negocios</strong>. Mientras las agencias tradicionales piensan como agencias de contenido, nosotros pensamos como estrategas de negocio que aplican metodología empresarial a un mercado de alta rentabilidad.</p>
+      <p>Construimos un <strong>sistema de negocio</strong> alrededor de la creadora, no al revés. La IA gestiona el marketing y la comunicación, los agentes virtuales trabajan 24/7, y la creadora se dedica a lo que le apasiona.</p>
+    </div>
+    <!-- IMAGEN 1 -->
+    <img src="image/image_1.jpg" alt="Identidad visual" class="about-image"/>
+  </div>
+</section>
+
+<section id="sistema">
+  <div class="container">
+    <p class="section-label">Metodología</p>
+    <h2 class="section-title">Nuestro <em>sistema</em> de IA</h2>
+    <div class="system-grid">
+      <div class="system-card">
+        <div class="service-icon">I</div>
+        <h4>Infraestructura</h4>
+        <p>Panel de control central con métricas en tiempo real, automatización de flujos y agentes de IA trabajando en paralelo para optimización.</p>
+      </div>
+      <div class="system-card">
+        <div class="service-icon">II</div>
+        <h4>Gestión de Plataformas</h4>
+        <p>Optimización de perfiles, programación de contenidos, gestión de mensajes con chatters entrenados en tu voz y estrategia de PPV.</p>
+      </div>
+      <div class="system-card">
+        <div class="service-icon">III</div>
+        <h4>Producción Estratégica</h4>
+        <p>Planificación completa de rodaje, dirección creativa y postproducción para crear historias que enganchen a tu audiencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mercado">
+  <div class="container">
+    <p class="section-label">El Mercado</p>
+    <h2 class="section-title">Proyección de <em>ingresos</em></h2>
+    <div class="mercado-text">
+      <p>Con más de 5 millones de creadores en plataformas digitales, destacar es más difícil que nunca. El 0.01% de los creadores con mayores ingresos gana entre $100,000 y más de $1,000,000 al mes.</p>
+      <p><strong>¿Cuánto puedes ganar y cuándo?</strong> Esta es la proyección para los primeros 12 meses con nuestro sistema.</p>
+    </div>
+    <table>
+      <tr><th>Mes</th><th>Ingreso bruto</th><th>Tu ingreso (65%)</th></tr>
+      <tr><td>Mes 1</td><td>$1,100 - $3,500</td><td>$715 - $2,275</td></tr>
+      <tr><td>Mes 2</td><td>$2,900 - $7,600</td><td>$1,885 - $4,940</td></tr>
+      <tr><td>Mes 3</td><td>$5,500 - $13,000</td><td>$3,575 - $8,450</td></tr>
+      <tr><td>Mes 6</td><td>$10,700 - $25,200</td><td>$6,955 - $16,380</td></tr>
+      <tr><td>Mes 12</td><td>$22,500 - $53,000</td><td>$14,625 - $34,450</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="blindaje">
+  <div class="container">
+    <p class="section-label">Seguridad</p>
+    <h2 class="section-title"><em>Blindaje</em> Cibernético</h2>
+    <div class="security-grid">
+      <div class="security-item">
+        <h4>VPN Dedicada</h4>
+        <p>Protegemos tu ubicación física real con una VPN de IP fija desde el día 1. Nadie podrá rastrear tu origen.</p>
+      </div>
+      <div class="security-item">
+        <h4>Eliminación de Metadatos</h4>
+        <p>Cada archivo que publicamos es limpiado de metadatos EXIF, eliminando la geolocalización y datos del dispositivo.</p>
+      </div>
+      <div class="security-item">
+        <h4>Monitoreo de Filtraciones</h4>
+        <p>Implementamos búsqueda inversa automatizada de tus imágenes en la web y registro en StopNCII para prevenir la distribución sin consentimiento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="incognito">
+  <div class="container">
+    <p class="section-label">Modo Incógnito</p>
+    <h2 class="section-title">Nadie te <em>conoce</em>, todos te <em>reconocen</em></h2>
+    <div class="incognito-box">
+      <p>Tu contenido se expone en Europa. Tu identidad está segura. Nadie te conoce y reconoce en este país. Operamos bajo un estricto protocolo de anonimato que separa tu vida real de tu faceta artística.</p>
+      <p style="margin-top: 1.5rem;">No basta con mostrarte. Tu faceta de actriz apenas inicia. No eres como las demás. Mereces un trato especial, una producción y resultados a la medida. Las plataformas de contenido para adulto, por sí solas, estereotipan. Nosotros cambiamos eso.</p>
+      <p style="margin-top: 1.5rem; font-style: italic; color: var(--off-white);">Te convertimos en actriz. Esta es solo una faceta de tu larga carrera.</p>
+    </div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="container">
+    <p class="section-label">Identidad Visual</p>
+    <h2 class="section-title">Nuestra <em>estética</em></h2>
+    <div class="gallery-grid">
+      <!-- IMAGEN 2 a IMAGEN 8 -->
+      <img src="image/image_2.jpg" alt="Estilo 1"/>
+      <img src="image/image_3.jpg" alt="Estilo 2"/>
+      <img src="image/image_4.jpg" alt="Estilo 3"/>
+      <img src="image/image_5.jpg" alt="Estilo 4"/>
+      <img src="image/image_6.jpg" alt="Estilo 5"/>
+      <img src="image/image_7.jpg" alt="Estilo 6"/>
+      <img src="image/image_8.jpg" alt="Estilo 7"/>
+    </div>
+  </div>
+</section>
+
+<section id="registro">
+  <div class="registro-intro-box">
+    <p><strong>NO BASTA CON MOSTRARTE.</strong> Tu faceta de actriz apenas inicia. No eres como las demás. Mereces un trato especial, una producción y resultados a la medida. Las plataformas de contenido para adulto, por sí solas, estereotipan. Nosotros cambiamos eso, y te convertimos en actriz. Esta es solo una faceta de tu larga carrera.</p>
+  </div>
+  <div class="form-outer">
+    <p class="section-label">Únete a la agencia</p>
+    <h2 class="section-title">Ficha de <em>registro</em></h2>
+    <p class="form-intro">Completa todos los campos con información verídica. La inscripción incluye la creación de tu Book Digital y Ficha Profesional (costo único de $X,XXX MXN). Nuestro equipo se pondrá en contacto en menos de 48 horas.</p>
+    <div class="form-card">
+      <form id="fichaForm">
+        <div class="fsection">
+          <div class="fsection-header"><div class="fsection-num">1</div><span class="fsection-title">Datos personales</span></div>
+          <div class="fgrid fgrid-2">
+            <div class="ffield"><label>Nombre(s) *</label><input type="text" name="nombres" required placeholder="Nombre(s)"/></div>
+            <div class="ffield"><label>Apellidos *</label><input type="text" name="apellidos" required placeholder="Apellido paterno y materno"/></div>
+            <div class="ffield"><label>Correo electrónico *</label><input type="email" name="email" required placeholder="correo@ejemplo.com"/></div>
+            <div class="ffield"><label>Teléfono celular *</label><input type="tel" name="telefono" required placeholder="+52 XXX XXX XXXX"/></div>
+          </div>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn-primary">Enviar ficha de registro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="container">
+    <p class="section-label">Hablemos</p>
+    <h2 class="section-title"><em>Contacto</em></h2>
+    <div class="contact-inner">
+      <div class="contact-info">
+        <p>¿Tienes preguntas sobre el proceso de registro o nuestros servicios? Escríbenos directamente.</p>
+        <div class="contact-details">
+          <div class="contact-item"><span>Correo</span><span>contacto@immagemanager.com</span></div>
+          <div class="contact-item"><span>WhatsApp</span><span>+52 XXX XXX XXXX</span></div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <input type="text" placeholder="Nombre completo"/>
+        <input type="email" placeholder="Correo electrónico"/>
+        <input type="text" placeholder="Asunto"/>
+        <textarea placeholder="Tu mensaje…"></textarea>
+        <button class="btn-primary" style="align-self:flex-start">Enviar mensaje</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 IMMAGE MANAGER · Agencia de Talentos Digitales · México</p>
+</footer>
+
+</body>
+</html>
